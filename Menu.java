@@ -14,21 +14,23 @@ import java.util.Date;
 import java.util.HashMap;
 import java.text.ParseException;
 import java.util.Scanner;
-/**
- *
- * Menu for a java calendar
- *
-*/
-public class Menu {
 
-    // Provides a
-    public void menu() {
+/**
+ * Menu class to allow user to select various calendar functions.
+ *
+ * @author Lee Rice
+ */
+class Menu {
+
+    /**
+     * Creates a menu for display to the user and handles calendar function selection.
+     */
+    void menu() {
         Calendar newCal = new Calendar();
         HashMap<String, Event> calMap = new HashMap<>();
         int userChoice;
 
-        String datePattern = "MM-dd-yyyy";
-        SimpleDateFormat dateFormat = new SimpleDateFormat(datePattern);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
 
         do {
             System.out.println("Please choose an option: ");
@@ -86,7 +88,6 @@ public class Menu {
                 System.out.print("Please enter a description of the event: ");
                 String description = scanner.next();
 
-                System.out.println("Formatted date is: " + formattedDate);
                 Event newEvent = new Event(formattedDate, startTime, endTime, description);
                 newCal.addEvent(calMap, newEvent);
 
@@ -101,7 +102,6 @@ public class Menu {
                 System.out.print("Please enter the start time of event you would like removed (HH:MM): ");
                 String startTime = scanner.next();
                 String key = date + startTime;
-                System.out.println("Entered key is: " + key);
 
                 if (calMap.containsKey(key)) {
                     newCal.removeEvent(calMap, calMap.get(key));

@@ -13,10 +13,20 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
-public class Calendar {
-
-    //Big O Average Time Complexity Hash Map insertion: O(1)
-    public void addEvent(HashMap map, Event event) {
+/**
+ * Calendar class contains the implementations of the various functions of the calendar.
+ *
+ * @author Lee Rice
+ */
+class Calendar {
+    /**
+     * Adds an event to the map.
+     * Big O Average Time Complexity Hash Map insertion: O(1)
+     *
+     * @param map   Map containing calendar events
+     * @param event Event to be added to the calendar
+     */
+    void addEvent(HashMap map, Event event) {
         DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         String dateString = dateFormat.format(event.date);
         String key = dateString + event.startTime;
@@ -24,18 +34,29 @@ public class Calendar {
 
     }
 
-    //Big O Average Time Complexity Hash Map removal: O(1)
-    public void removeEvent(HashMap map, Event event) {
+    /**
+     * Removes an event from the map
+     * Big O Average Time Complexity Hash Map removal: O(1)
+     *
+     * @param map   Map containing calendar events
+     * @param event Event to be added to the calendar
+     */
+    void removeEvent(HashMap map, Event event) {
         map.remove(event.date + event.startTime);
     }
 
-
-    //Big O Best Case Time Complexity Map search: O(n)  Worst case: O(n^7)
-    //All key, value pairs stored in map must be searched for each day left in the week
-    public void printRemainingAgendaForTheWeek(HashMap map) {
+    /**
+     * Removes an event from the map
+     * Big O Best Case Time Complexity Map search: O(n)  Worst case: O(n^7)
+     * All key, value pairs stored in map must be searched for each day left in the week
+     *
+     * @param map Map containing calendar events
+     */
+    void printRemainingAgendaForTheWeek(HashMap map) {
         Date currentDate = new Date();
         DateFormat dayInYear = new SimpleDateFormat("D");
         DateFormat dayInWeek = new SimpleDateFormat("E");
+        DateFormat shortDate = new SimpleDateFormat("MM-dd-yyyy");
         String dayInString = dayInWeek.format(currentDate);
         int intDayOfYear = Integer.parseInt(dayInYear.format(currentDate));
         int remainingDays = 0;
@@ -80,10 +101,10 @@ public class Calendar {
                 int intDayChecked = Integer.parseInt(dayInYear.format(currentEvent.date));
 
                 if (intDayChecked == (intDayOfYear)) {
-                    System.out.println("Event Date: " + currentEvent.date);
+                    System.out.println("\nEvent Date: " + shortDate.format(currentEvent.date));
                     System.out.println("Start Time: " + currentEvent.startTime);
                     System.out.println("End Time: " + currentEvent.endTime);
-                    System.out.println("Description: " + currentEvent.description + "\n\n");
+                    System.out.println("Description: " + currentEvent.description + "\n");
                 }
 
             }
