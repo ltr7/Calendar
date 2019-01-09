@@ -23,9 +23,9 @@ class Event {
     /**
      * Creates an event to be added to the calendar from used provided parameters.
      *
-     * @param date Date of the event
-     * @param startTime Starting time of the event
-     * @param endTime Ending time of the event
+     * @param date        Date of the event
+     * @param startTime   Starting time of the event
+     * @param endTime     Ending time of the event
      * @param description User provided description of the event
      */
     Event(Date date, String startTime, String endTime, String description) {

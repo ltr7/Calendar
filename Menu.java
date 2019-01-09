@@ -1,7 +1,7 @@
 /*
  * File: Menu.java
  * Created: 2018/12/22
- * Last Modified: 2019/01/07
+ * Last Modified: 2019/01/09
  * Author: Lee Rice <Lee.Rice7@gmail.com>
  */
 
@@ -13,6 +13,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.text.ParseException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -28,20 +29,25 @@ class Menu {
     void menu() {
         Calendar newCal = new Calendar();
         HashMap<String, Event> calMap = new HashMap<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         int userChoice;
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-
         do {
+            userChoice = 0;
             System.out.println("Please choose an option: ");
             System.out.println("1. Add calendar event ");
             System.out.println("2. Delete calendar event ");
             System.out.println("3. Display remaining agenda for the week ");
             System.out.println("4. Exit the calendar ");
             System.out.print("Please enter your choice: ");
-
             Scanner scanner = new Scanner(System.in);
-            userChoice = scanner.nextInt();
+
+            try {
+                userChoice = scanner.nextInt();
+
+            } catch (InputMismatchException exception) {
+                System.out.println(System.lineSeparator() + "Please enter a valid selection " + System.lineSeparator());
+            }
 
             if (userChoice == 1) {
                 boolean validDate = false;
@@ -50,6 +56,7 @@ class Menu {
                 Date formattedDate = new Date();
                 String startTime = "";
                 String endTime = "";
+                String description;
 
                 while (!validDate) {
                     System.out.print("Please enter the date of new event (MM-DD-YYYY): ");
@@ -58,7 +65,7 @@ class Menu {
                         formattedDate = dateFormat.parse(date);
                         validDate = true;
                     } catch (ParseException e) {
-                        System.out.println("Incorrect date format.  Please try again.\n");
+                        System.out.println("Incorrect date format.  Please try again." + System.lineSeparator());
                     }
                 }
 
@@ -69,7 +76,7 @@ class Menu {
                         LocalTime.parse(startTime);
                         validStartTime = true;
                     } catch (DateTimeParseException | NullPointerException e) {
-                        System.out.println("Incorrect time format.  Please try again.\n");
+                        System.out.println("Incorrect time format.  Please try again. " + System.lineSeparator());
                     }
                 }
 
@@ -81,18 +88,19 @@ class Menu {
                         LocalTime.parse(endTime);
                         validEndTime = true;
                     } catch (DateTimeParseException | NullPointerException e) {
-                        System.out.println("Incorrect time format.  Please try again. \n");
+                        System.out.println("Incorrect time format.  Please try again." + System.lineSeparator());
                     }
                 }
 
                 System.out.print("Please enter a description of the event: ");
-                String description = scanner.next();
+                scanner.nextLine(); //Remove /n not consumed by nextInt.
+                description = scanner.nextLine();
 
                 Event newEvent = new Event(formattedDate, startTime, endTime, description);
                 newCal.addEvent(calMap, newEvent);
 
 
-                System.out.println("Event entered. ");
+                System.out.println("Event entered." + System.lineSeparator());
 
 
             } else if (userChoice == 2) {
@@ -105,15 +113,17 @@ class Menu {
 
                 if (calMap.containsKey(key)) {
                     newCal.removeEvent(calMap, calMap.get(key));
-                    System.out.println("Event removed.");
+                    System.out.println(System.lineSeparator() + "Event removed." + System.lineSeparator());
                 } else {
-                    System.out.println("An event with that date and start time does not exist in the calendar.");
+                    System.out.println(System.lineSeparator() +
+                            "An event with that date and start time does not exist in the calendar."
+                            + System.lineSeparator());
                 }
 
             } else if (userChoice == 3) {
                 newCal.printRemainingAgendaForTheWeek(calMap);
-
             }
+            System.out.println(System.lineSeparator());
 
         } while (userChoice != 4);
     }
